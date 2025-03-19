@@ -18,12 +18,12 @@ interface AuthRequest extends Request {
 const verifyToken = (req: AuthRequest, res: Response, next: NextFunction): void => {
     const authHeader = req.headers['authorization'];
     if (!authHeader) {
-        res.status(201).send('Unauthorized');
+        res.status(401).send('Unauthorized');
         return;
     }
     const token = authHeader.split(' ')[1];
     if (!token) {
-        res.status(201).send('Malformed token');
+        res.status(401).send('Malformed token');
         return;
     }
     jwt.verify(token, process.env.JWT_SECRET || 'default_secret', (err, decoded) => {
